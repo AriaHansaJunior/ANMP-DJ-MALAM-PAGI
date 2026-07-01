@@ -36,7 +36,10 @@ class CreateHabitFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        val iconList = listOf("water", "books", "muscle", "meditation")
+        val iconList = listOf(
+            "water", "books", "muscle", "meditation", "kilometer",
+            "time"
+        )
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, iconList)
         binding.spinnerIcon.setAdapter(adapter)
 
@@ -57,7 +60,8 @@ class CreateHabitFragment : Fragment() {
                 stepStr.isEmpty() ||
                 iconName.isEmpty()
             ) {
-                Toast.makeText(requireContext(), "Semua data harus diisi", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Semua data harus diisi", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             }
 
@@ -65,12 +69,17 @@ class CreateHabitFragment : Fragment() {
             val step = stepStr.toInt()
 
             if (step > target) {
-                Toast.makeText(requireContext(), "Step tidak boleh lebih besar dari target", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Step tidak boleh lebih besar dari target",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
             if (step <= 0) {
-                Toast.makeText(requireContext(), "Step harus lebih dari 0", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Step harus lebih dari 0", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             }
             val session = SessionManager(requireContext())

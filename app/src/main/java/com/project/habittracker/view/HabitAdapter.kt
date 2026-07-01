@@ -13,7 +13,8 @@ class HabitAdapter(
     private val list: MutableList<Habit>,
     private val onUpdate: (Habit) -> Unit,
     private val onEdit: (Habit) -> Unit
-) : RecyclerView.Adapter<HabitAdapter.ViewHolder>(), DashboardHabitListener {
+) : RecyclerView.Adapter<HabitAdapter.ViewHolder>(),
+    DashboardHabitListener {
 
     inner class ViewHolder(val binding: ItemHabitBinding) : RecyclerView.ViewHolder(binding.root)
 
