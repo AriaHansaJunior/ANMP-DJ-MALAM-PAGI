@@ -20,9 +20,7 @@ class EditHabitFragment : Fragment(), EditHabitListener {
     private lateinit var habit: Habit
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         binding = FragmentEditHabitBinding.inflate(inflater, container, false)
@@ -42,12 +40,12 @@ class EditHabitFragment : Fragment(), EditHabitListener {
 
         binding.listener = this
 
-        val iconList = listOf("water", "books", "muscle", "meditation")
+        val iconList = listOf(
+            "water", "books", "muscle", "meditation", "kilometer", "time"
+        )
 
         val adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_list_item_1,
-            iconList
+            requireContext(), android.R.layout.simple_list_item_1, iconList
         )
 
         binding.spinnerIcon.setAdapter(adapter)
