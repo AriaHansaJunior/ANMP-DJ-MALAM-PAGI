@@ -7,6 +7,10 @@
             name="habit"
             type="com.project.habittracker.model.Habit" />
 
+        <variable
+            name="listener"
+            type="com.project.habittracker.view.DashboardHabitListener" />
+
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -112,6 +116,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnMinus"
+                    android:onClick="@{(v) -> listener.onMinusClick(v, habit)}"
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -122,6 +127,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPlus"
+                    android:onClick="@{(v) -> listener.onPlusClick(v, habit)}"
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"

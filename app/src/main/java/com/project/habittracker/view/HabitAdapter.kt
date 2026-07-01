@@ -7,21 +7,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.project.habittracker.databinding.ItemHabitBinding
 import com.project.habittracker.model.Habit
+import android.view.View
 
 class HabitAdapter(
     private val list: MutableList<Habit>,
     private val onUpdate: (Habit) -> Unit,
     private val onEdit: (Habit) -> Unit
-) : RecyclerView.Adapter<HabitAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<HabitAdapter.ViewHolder>(), DashboardHabitListener {
 
-    inner class ViewHolder(val binding: ItemHabitBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ItemHabitBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemHabitBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
+            LayoutInflater.from(parent.context), parent, false
         )
         return ViewHolder(binding)
     }
@@ -29,6 +27,7 @@ class HabitAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val habit = list[position]
         holder.binding.habit = habit
+        holder.binding.listener = this
 
 //        holder.binding.txtName.text = habit.name
 //        holder.binding.txtDesc.text = habit.description
@@ -37,9 +36,7 @@ class HabitAdapter(
 //        holder.binding.progressBar.progress = habit.progress
 
         val resId = holder.itemView.context.resources.getIdentifier(
-            habit.iconName,
-            "drawable",
-            holder.itemView.context.packageName
+            habit.iconName, "drawable", holder.itemView.context.packageName
         )
 
         if (resId != 0) {
@@ -52,8 +49,7 @@ class HabitAdapter(
             holder.binding.txtStatus.setTextColor(0xFF2E7D32.toInt())
             holder.binding.btnPlus.isEnabled = false
 
-            holder.binding.progressBar.progressTintList =
-                ColorStateList.valueOf(0xFF4CAF50.toInt())
+            holder.binding.progressBar.progressTintList = ColorStateList.valueOf(0xFF4CAF50.toInt())
 
         } else {
 //            holder.binding.txtStatus.text = "In Progress"
@@ -62,31 +58,30 @@ class HabitAdapter(
             holder.binding.btnPlus.isEnabled = true
             holder.binding.btnMinus.isEnabled = habit.progress > 0
 
-            holder.binding.progressBar.progressTintList =
-                ColorStateList.valueOf(0xFF7C4DFF.toInt())
+            holder.binding.progressBar.progressTintList = ColorStateList.valueOf(0xFF7C4DFF.toInt())
         }
 
 //        holder.binding.txtProgress.text = "${habit.progress} / ${habit.target} ${habit.unit}"
 
-        holder.binding.btnPlus.setOnClickListener {
-            if (habit.progress < habit.target) {
-                habit.progress += habit.step
-                if (habit.progress > habit.target) habit.progress = habit.target
-                notifyItemChanged(position)
-                onUpdate(habit)
-            }
-        }
+//        holder.binding.btnPlus.setOnClickListener {
+//            if (habit.progress < habit.target) {
+//                habit.progress += habit.step
+//                if (habit.progress > habit.target) habit.progress = habit.target
+//                notifyItemChanged(position)
+//                onUpdate(habit)
+//            }
+//        }
 
-        holder.binding.btnMinus.setOnClickListener {
-            if (habit.progress > 0) {
-                habit.progress -= habit.step
-                if (habit.progress < 0) habit.progress = 0
-                notifyItemChanged(position)
-                onUpdate(habit)
-            }
+//        holder.binding.btnMinus.setOnClickListener {
+//            if (habit.progress > 0) {
+//                habit.progress -= habit.step
+//                if (habit.progress < 0) habit.progress = 0
+//                notifyItemChanged(position)
+//                onUpdate(habit)
+//            }
 //                holder.binding.btnPlus.isEnabled = true
-
-        }
+//
+//        }
 
         holder.binding.txtName.setOnClickListener {
             onEdit(habit)
@@ -94,4 +89,24 @@ class HabitAdapter(
     }
 
     override fun getItemCount(): Int = list.size
+
+    override fun onPlusClick(v: View, habit: Habit) {
+        if (habit.progress < habit.target) {
+            habit.progress += habit.step
+            if (habit.progress > habit.target) habit.progress = habit.target
+
+            notifyDataSetChanged()
+            onUpdate(habit)
+        }
+    }
+
+    override fun onMinusClick(v: View, habit: Habit) {
+        if (habit.progress > 0) {
+            habit.progress -= habit.step
+            if (habit.progress < 0) habit.progress = 0
+
+            notifyDataSetChanged()
+            onUpdate(habit)
+        }
+    }
 }
