@@ -21,13 +21,13 @@ class HabitViewModel(application: Application)
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.IO
 
-    fun fetchHabit(){
+    fun fetchHabit(username: String) {
 
         launch {
 
             val db = HabitDatabase(getApplication())
 
-            val list = db.habitDao().getAllHabit()
+            val list = db.habitDao().getAllHabit(username)
 
             habitList.postValue(list.toMutableList())
 
@@ -43,7 +43,7 @@ class HabitViewModel(application: Application)
 
             db.habitDao().insertHabit(habit)
 
-            fetchHabit()
+//            fetchHabit()
 
         }
 
@@ -57,7 +57,7 @@ class HabitViewModel(application: Application)
 
             db.habitDao().updateHabit(habit)
 
-            fetchHabit()
+//            fetchHabit()
 
         }
 

@@ -9,8 +9,8 @@ import com.project.habittracker.model.Habit
 @Dao
 interface HabitDao {
 
-    @Query("SELECT * FROM Habit")
-    fun getAllHabit(): List<Habit>
+    @Query("SELECT * FROM Habit WHERE username = :username")
+    fun getAllHabit(username: String): List<Habit>
 
     @Insert
     fun insertHabit(habit: Habit)

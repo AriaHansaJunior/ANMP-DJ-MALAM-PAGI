@@ -12,6 +12,7 @@ import com.project.habittracker.databinding.FragmentCreateHabitBinding
 import com.project.habittracker.model.Habit
 import androidx.lifecycle.ViewModelProvider
 import com.project.habittracker.viewmodel.HabitViewModel
+import com.project.habittracker.util.SessionManager
 
 class CreateHabitFragment : Fragment() {
 
@@ -72,8 +73,10 @@ class CreateHabitFragment : Fragment() {
                 Toast.makeText(requireContext(), "Step harus lebih dari 0", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            val session = SessionManager(requireContext())
 
             val newHabit = Habit(
+                username = session.getUsername(),
                 name = name,
                 description = desc,
                 progress = 0,

@@ -15,11 +15,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.NavOptions
 import com.project.habittracker.util.SessionManager
 
+
 class DashboardFragment : Fragment() {
 
     private lateinit var binding: FragmentDashboardBinding
     private lateinit var adapter: HabitAdapter
     private lateinit var viewModel: HabitViewModel
+    private lateinit var session: SessionManager
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +37,10 @@ class DashboardFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[HabitViewModel::class.java]
 
-        viewModel.fetchHabit()
+        val session = SessionManager(requireContext())
+
+        viewModel.fetchHabit(session.getUsername())
+
 
         viewModel.habitList.observe(viewLifecycleOwner) {
 
@@ -89,6 +95,7 @@ class DashboardFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        viewModel.fetchHabit()
+        val session = SessionManager(requireContext())
+        viewModel.fetchHabit(session.getUsername())
     }
 }

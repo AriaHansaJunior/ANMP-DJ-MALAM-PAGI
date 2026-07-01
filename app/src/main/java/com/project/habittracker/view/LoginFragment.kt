@@ -57,8 +57,10 @@ class LoginFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
 
+                val username = binding.edtUsername.text.toString()
+
                 val session = SessionManager(requireContext())
-                session.saveLogin()
+                session.saveLogin(username)
 
                 val action =
                     LoginFragmentDirections.actionLoginToDashboard()
